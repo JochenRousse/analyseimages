@@ -17,8 +17,11 @@ model = load_model('CorelDB_model.h5')
 
 img_width, img_height = 120, 120
 
-img_dir = "data/src"
-resu_dir = "data/result"
+img_dir = "./data/src"
+resu_dir = "./data/result"
+
+if not os.path.exists(resu_dir):
+    os.mkdir(resu_dir)
 
 nb_test_samples = sum([len(files) for r, d, files in os.walk(img_dir)])
 
