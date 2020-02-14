@@ -5,10 +5,11 @@ from keras.layers import Activation, Dropout, Flatten, Dense
 from keras import backend as K
 from keras.utils import plot_model
 import matplotlib.pyplot as plt
-
+import tensorflow as tf
 import os
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 # dimensions of our images.
 img_width, img_height = 120, 120
@@ -54,10 +55,10 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 
 # this is the augmentation configuration we will use for training
 train_datagen = ImageDataGenerator(
-        rescale=1./255,
-        shear_range=0.2,
-        zoom_range=0.2,
-        horizontal_flip=True)
+    rescale=1. / 255,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True)
 
 # this is the augmentation configuration we will use for testing:
 # only rescaling
@@ -81,8 +82,8 @@ model.save('CorelDB_model.h5')
 plot_model(model, to_file="model_v1.png")
 
 plt.figure()
-plt.plot(history.history['accuracy'])
-plt.plot(history.history['val_accuracy'])
+plt.plot(history.history['acc'])
+plt.plot(history.history['val_acc'])
 plt.title("Précision du modèle")
 plt.ylabel("Précision")
 plt.xlabel("Epoch")

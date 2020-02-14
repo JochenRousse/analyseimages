@@ -3,7 +3,10 @@ from keras.preprocessing.image import image
 from keras.models import load_model
 import os
 import shutil
+import tensorflow as tf
 from sklearn.metrics import classification_report, confusion_matrix
+
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 
 def reports(y_pred, y_true, classs_names):
@@ -17,7 +20,7 @@ model = load_model('CorelDB_model.h5')
 
 img_width, img_height = 120, 120
 
-img_dir = "./data/src"
+img_dir = "./data/test"
 resu_dir = "./data/result"
 
 if not os.path.exists(resu_dir):
