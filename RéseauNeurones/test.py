@@ -32,6 +32,7 @@ batch_holder = np.zeros((nb_test_samples, img_width, img_height, 3))
 y_true = np.zeros(nb_test_samples)
 
 class_names = next(os.walk(img_dir))[1]
+class_names.sort()
 
 i = 0
 for dirpath, dirnames, filenames in os.walk(img_dir):
