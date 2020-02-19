@@ -20,35 +20,6 @@ d_type = 'cosine'
 
 depth = 5
 
-''' MMAP    
-      depth
-       depthNone, region-stride(1, 1)-n_slice10,co, MMAP 0.101670982288
-       depth100,  region-stride(1, 1)-n_slice10,co, MMAP 0.207817305128
-       depth30,   region-stride(1, 1)-n_slice10,co, MMAP 0.291715090839
-       depth10,   region-stride(1, 1)-n_slice10,co, MMAP 0.353722379063
-       depth5,    region-stride(1, 1)-n_slice10,co, MMAP 0.367119444444
-       depth3,    region-stride(1, 1)-n_slice10,co, MMAP 0.3585
-       depth1,    region-stride(1, 1)-n_slice10,co, MMAP 0.302
-  
-       (exps below use depth=None)
-  
-      d_type
-       global-stride(2, 2),d1, MMAP 0.0530993236031
-       global-stride(2, 2),co, MMAP 0.0528310744618
-  
-      stride
-       region-stride(2, 2)-n_slice4,d1, MMAP 0.0736245142237
-       region-stride(1, 1)-n_slice4,d1, MMAP 0.0704206226545
-  
-      n_slice
-       region-stride(1, 1)-n_slice10,co, MMAP 0.101670982288
-       region-stride(1, 1)-n_slice6,co, MMAP 0.0977736743859
-  
-      h_type
-       global-stride(2, 2),d1, MMAP 0.0530993236031
-       region-stride(2, 2)-n_slice4,d1, MMAP 0.0736245142237
-'''
-
 edge_kernels = np.array([
     [
         # vertical
@@ -86,7 +57,7 @@ if not os.path.exists(cache_dir):
 class Edge(object):
 
     def histogram(self, input, stride=(2, 2), type=h_type, n_slice=n_slice, normalize=True):
-        ''' count img histogram
+        """ count img histogram
 
           arguments
             input    : a path to a image or a numpy.ndarray
@@ -101,7 +72,7 @@ class Edge(object):
               a numpy array with size len(edge_kernels)
             type == 'region'
               a numpy array with size len(edge_kernels) * n_slice * n_slice
-        '''
+        """
         if isinstance(input, np.ndarray):  # examinate input type
             img = input.copy()
         else:
