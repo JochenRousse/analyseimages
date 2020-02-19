@@ -193,27 +193,20 @@ if __name__ == "__main__":
     DB_train_csv = DB_train_dir + "/data_train.csv"
 
     db1 = MyDatabase(DB_train_dir, DB_train_csv)
-    print("DB length: ", len(db1))
-    # data = db.get_data()
+    print("DB1 length: ", len(db1))
     edge = Edge()
 
     DB_test_dir = "data/test"
     DB_test_csv = DB_test_dir + "/data_test.csv"
 
     db2 = MyDatabase(DB_test_dir, DB_test_csv)
-    print("DB length: ", len(db2))
+    print("DB2 length: ", len(db2))
 
     # check shape
     assert edge_kernels.shape == (5, 2, 2)
 
     # evaluate database
     APs, res = myevaluate(db1, db2, edge.make_samples, depth=depth, d_type="d1")
-    cls_MAPs = []
-    for cls, cls_APs in APs.items():
-        MAP = np.mean(cls_APs)
-        print("Class {}, MAP {}".format(cls, MAP))
-        cls_MAPs.append(MAP)
-    print("MMAP", np.mean(cls_MAPs))
 
     for i in range(len(db2)):
         saveName = "./data/result/" + res[i] + "/" + db2.data.img[i].split('/')[-1]

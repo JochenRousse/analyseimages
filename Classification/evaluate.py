@@ -41,17 +41,6 @@ def distance(v1, v2, d_type='d1'):
 
 
 def myAP(label, results, sort=True):
-    """ infer a query, return it's ap
-
-      arguments
-        label  : query's class
-        results: a dict with two keys, see the example below
-                 {
-                   'dis': <distance between sample & query>,
-                   'cls': <sample's class>
-                 }
-        sort   : sort the results by distance
-    """
     if sort:
         results = sorted(results, key=lambda x: x['dis'])
     precision = []
@@ -60,29 +49,10 @@ def myAP(label, results, sort=True):
             hit = 1.
             precision.append(hit)
 
-    return np.mean(precision) > 0.5
+    return np.mean(precision)
 
 
 def infer(query, samples=None, db=None, sample_db_fn=None, depth=None, d_type='d1'):
-    """ infer a query, return it's ap
-
-      arguments
-        query       : a dict with three keys, see the template
-                      {
-                        'img': <path_to_img>,
-                        'cls': <img class>,
-                        'hist' <img histogram>
-                      }
-        samples     : a list of {
-                                  'img': <path_to_img>,
-                                  'cls': <img class>,
-                                  'hist' <img histogram>
-                                }
-        db          : an instance of class Database
-        sample_db_fn: a function making samples, should be given if Database != None
-        depth       : retrieved depth during inference, the default depth is equal to database size
-        d_type      : distance type
-    """
     assert samples is not None or (
             db is not None and sample_db_fn is not None), "need to give either samples or db plus sample_db_fn"
     if db:
@@ -102,9 +72,9 @@ def infer(query, samples=None, db=None, sample_db_fn=None, depth=None, d_type='d
     results = sorted(results, key=lambda x: x['dis'])
     if depth and depth <= len(results):
         results = results[:depth]
-        print(q_img)
+        print(q_img)  # image recherchée dans la base de test
         list_im = [sub['img'] for sub in results]
-        print(list_im)
+        print(list_im)  # images similaires dans la base de train
         pred = [sub['cls'] for sub in results]
         weig = [sub['dis'] for sub in results]
         weig = np.reciprocal(weig)
@@ -117,14 +87,6 @@ def infer(query, samples=None, db=None, sample_db_fn=None, depth=None, d_type='d
 
 
 def myevaluate(db1, db2, sample_db_fn, depth=None, d_type='d1'):
-    """ infer the whole database
-
-      arguments
-        db          : an instance of class Database
-        sample_db_fn: a function making samples, should be given if Database != None
-        depth       : retrieved depth during inference, the default depth is equal to database size
-        d_type      : distance type
-    """
     samples2 = sample_db_fn(db2)
     print(len(samples2))
 
@@ -133,11 +95,9 @@ def myevaluate(db1, db2, sample_db_fn, depth=None, d_type='d1'):
 
     classes = db1.get_class()
     classes.add(samples2[0]['cls'])
-
     print(classes)
 
     ret = {c: [] for c in classes}
-
     predict = []
 
     for query in samples2:
